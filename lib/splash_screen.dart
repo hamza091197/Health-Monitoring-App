@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.blue, // Customize background color
       body: Center(
         child: Image.asset(
-          'images/watch.jpg', // Replace with your image asset path
+          'images/fitness.jpg', // Replace with your image asset path
           fit: BoxFit.cover, // Make the image cover the entire screen
           width: double.infinity, // Ensure the image takes up the full width
           height: double.infinity, // Ensure the image takes up the full height

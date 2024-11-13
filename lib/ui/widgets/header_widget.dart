@@ -34,7 +34,7 @@ class HeaderWidget extends StatelessWidget {
             Positioned(
               right: 4.r,
               top: 4.r,
-              child: CircleAvatar(radius: 2.r, backgroundColor: Colors.red),
+              child: CircleAvatar(radius: 3.r, backgroundColor: Colors.red),
             ),
           ],
         ),
