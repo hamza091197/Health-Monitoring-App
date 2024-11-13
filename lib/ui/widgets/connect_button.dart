@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:healthapp/splash_screen.dart';
+import 'package:healthapp/ui/screens/heart_health.dart';
+
+import '../screens/home_screen.dart';
 
 class ConnectButton extends StatelessWidget {
   @override
@@ -7,10 +12,7 @@ class ConnectButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Navigate to the SplashScreen when the button is tapped
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => SplashScreen()), // Adjust this if you're using named routes
-        );
+        Get.to(() => HeartHealth());
       },
       child: Container(
         padding: EdgeInsets.all(16.0),

@@ -14,28 +14,25 @@ class HomeScreen extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(56.0), // Set the height of the AppBar
-            child: HeaderWidget(), // Use your custom HeaderWidget as the AppBar
-          ),
-          body: SingleChildScrollView( // Allows scrolling
-            child: Padding(
-              padding: EdgeInsets.all(16.0.w), // Ensure the padding works for all screen sizes
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: BatteryWidget()),
-                    ],
-                  ),
-                  SizedBox(height: 20.h), // Adds vertical spacing
-                  CustomizeWidget(),
-                  SizedBox(height: 20.h), // Adds vertical spacing
-                  Center(child: ConnectButton()), // Center the ConnectButton at the end
-                ],
-              ),
+          body: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 40.h),
+                HeaderWidget(),
+                SizedBox(height: 20.h),
+                Text(
+                  'Tracking your Heart',
+                  style: TextStyle(fontSize: 40.sp, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.h),
+                BatteryWidget(),
+                SizedBox(height: 20.h),
+                CustomizeWidget(),
+                SizedBox(height: 20.h),
+                Center(child: ConnectButton()),
+              ],
             ),
           ),
         );

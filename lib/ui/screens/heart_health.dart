@@ -20,8 +20,9 @@ class HeartHealth extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 40.h), // Adds extra space at the top like HomeScreen
                 HeaderWidget(),
-                SizedBox(height: 10.h),
+                SizedBox(height: 20.h), // Spacing after HeaderWidget
                 Text(
                   'Heart Health',
                   style: TextStyle(
@@ -29,17 +30,14 @@ class HeartHealth extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 20.h), // Space between title and content
                 HealthStatusWidget(),
                 SizedBox(height: 20.h),
                 HeartMetricsWidget(),
                 SizedBox(height: 20.h),
                 DoctorContactWidget(),
                 SizedBox(height: 20.h),
-
-                // Add the IconRowWidget at the bottom
                 Center(child: IconRowWidget()),
-
               ],
             ),
           ),

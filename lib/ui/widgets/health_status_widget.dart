@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:healthapp/ui/screens/home_screen.dart';
 
 class HealthStatusWidget extends StatelessWidget {
   @override
@@ -89,7 +92,9 @@ class HealthStatusWidget extends StatelessWidget {
 
   Widget _buildButton() {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.to(() => HomeScreen());
+      },
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.transparent,
         side: BorderSide(color: Colors.black, width: 2),
