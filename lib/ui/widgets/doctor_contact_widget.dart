@@ -8,13 +8,13 @@ class DoctorContactWidget extends StatelessWidget {
       padding: EdgeInsets.all(16.0.w),
       decoration: BoxDecoration(
         color: Colors.yellow.shade100,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(50.r),
       ),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 25.r,
-            backgroundImage: AssetImage('images/doctor_image.png'),
+            radius: 30.r,
+            backgroundImage: AssetImage('images/person_five.png'),
           ),
           SizedBox(width: 10.w),
           Column(
@@ -25,9 +25,21 @@ class DoctorContactWidget extends StatelessWidget {
             ],
           ),
           Spacer(),
-          Icon(Icons.message, color: Colors.blue, size: 24.sp),
-          SizedBox(width: 16.w),
-          Icon(Icons.phone, color: Colors.green, size: 24.sp),
+          ...['message_rounded', 'local_phone_outlined'].map((iconName) => Padding(
+            padding: EdgeInsets.only(left: 9.w),
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                iconName == 'message_rounded' ? Icons.message_rounded : Icons.local_phone_outlined,
+                color: iconName == 'message_rounded' ? Colors.blue : Colors.green,
+                size: 24.sp,
+              ),
+            ),
+          )),
         ],
       ),
     );
