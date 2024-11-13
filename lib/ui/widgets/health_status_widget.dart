@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:healthapp/ui/screens/home_screen.dart';
 
-class HealthStatusWidget extends StatelessWidget {
+class HealthStatusWidget extends StatefulWidget {
+  @override
+  _HealthStatusWidgetState createState() => _HealthStatusWidgetState();
+}
+
+class _HealthStatusWidgetState extends State<HealthStatusWidget> {
+  bool _isVisible = true; // Track visibility of the image
+
+  @override
+  void initState() {
+    super.initState();
+    _startFadeAnimation();
+  }
+
+  // Function to start fade in and fade out animation
+  void _startFadeAnimation() {
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        _isVisible = !_isVisible; // Toggle visibility
+      });
+
+      // Continue toggling the visibility every 500 milliseconds for the fade effect
+      Future.delayed(Duration(milliseconds: 500), _startFadeAnimation);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: Size(375, 812), minTextAdapt: true);
@@ -39,24 +63,23 @@ class HealthStatusWidget extends StatelessWidget {
                 ],
               ),
             ),
-            // Right side: Heart image with transparent background and bigger size
-            Container(
-              width: 120.w,
-              // Adjusted the size for better fit
-              height: 120.h,
-              // Adjusted the size for better fit
-              decoration: BoxDecoration(
-                // Removed white background
-                borderRadius: BorderRadius.circular(12.r), // Rounded corners
-              ),
-              alignment: Alignment.center,
-              // Center the image inside the container
-              child: Image.asset(
-                'images/heart_model.png',
-                width: 120.w, // Set the larger width here
-                height: 120.h, // Set the larger height here
-                fit: BoxFit
-                    .contain, // Ensures the image fits within the specified size
+            // Right side: Heart image with fade effect
+            AnimatedOpacity(
+              opacity: _isVisible ? 1.0 : 0.0, // Fade in/out effect
+              duration: Duration(milliseconds: 500), // Duration of fade effect (less than 1 second)
+              child: Container(
+                width: 120.w,
+                height: 120.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r), // Rounded corners
+                ),
+                alignment: Alignment.center,
+                child: Image.asset(
+                  'images/heart_model.png',
+                  width: 120.w,
+                  height: 120.h,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ],
@@ -69,8 +92,7 @@ class HealthStatusWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      child:
-          Icon(Icons.heart_broken_outlined, color: Colors.black, size: 24.sp),
+      child: Icon(Icons.heart_broken_outlined, color: Colors.black, size: 24.sp),
     );
   }
 
@@ -98,9 +120,7 @@ class HealthStatusWidget extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.transparent,
         side: BorderSide(color: Colors.black, width: 2),
-        // Set the border width here to make it bold
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
       ),
       child: Text('Diagnostic',

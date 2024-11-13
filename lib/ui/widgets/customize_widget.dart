@@ -11,72 +11,79 @@ class _CustomizeWidgetState extends State<CustomizeWidget> {
   bool isWifiClicked = false;
   bool isSettingsClicked = false;
 
+  // Method to handle the common logic for both icons
+  void _toggleIconState(String iconType) {
+    setState(() {
+      if (iconType == 'wifi') {
+        isWifiClicked = !isWifiClicked;
+        if (isWifiClicked) isSettingsClicked = false; // Reset Settings if WiFi clicked
+      } else {
+        isSettingsClicked = !isSettingsClicked;
+        if (isSettingsClicked) isWifiClicked = false; // Reset WiFi if Settings clicked
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.w), // Less padding around the container to ensure the image fits well
+      padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r), // Responsive border radius
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Stack(
-        alignment: Alignment.bottomRight, // Position the icons at the bottom right
+        alignment: Alignment.bottomRight,
         children: [
           // Image of the device (fitness tracker)
           ClipRRect(
-            borderRadius: BorderRadius.circular(12.r), // Responsive rounded corners for the image
+            borderRadius: BorderRadius.circular(12.r),
             child: Container(
-              width: 350.w, // Set the image width
-              height: 200.h, // Set the height to give more space for the image
+              width: 350.w,
+              height: 200.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('images/watch.jpg'), // Keep the specified image asset path
-                  fit: BoxFit.cover, // Ensure the image covers the area without distortion
+                  image: AssetImage('images/fitness.jpg'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
-          // Icons at the bottom right of the image with white circular background
+          // Icons at the bottom right of the image
           Padding(
-            padding: EdgeInsets.all(8.w), // Padding around the icons
+            padding: EdgeInsets.all(8.w),
             child: Row(
               children: [
-                // Wifi icon with conditional background
+                // WiFi Icon
                 GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isWifiClicked = !isWifiClicked; // Toggle the state for WiFi
-                      if (isWifiClicked) {
-                        isSettingsClicked = false; // Reset Settings icon if WiFi is clicked
-                      }
-                    });
-                  },
+                  onTap: () => _toggleIconState('wifi'),
                   child: Container(
-                    padding: EdgeInsets.all(8.w), // Add padding inside the circle
+                    padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: isWifiClicked ? Colors.transparent : Colors.white, // WiFi background transparent when clicked
-                      shape: BoxShape.circle, // Circular shape
+                      color: isWifiClicked ? Colors.transparent : Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isWifiClicked ? Colors.black : Colors.transparent,
+                        width: 2.w,
+                      ),
                     ),
-                    child: Icon(Icons.wifi, size: 30.sp, color: Colors.black), // Wifi icon with black color
+                    child: Icon(Icons.wifi, size: 30.sp, color: Colors.black),
                   ),
                 ),
-                SizedBox(width: 10.w), // Space between icons
-                // Settings icon with conditional background
+                SizedBox(width: 10.w),
+                // Settings Icon
                 GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isSettingsClicked = !isSettingsClicked; // Toggle the state for Settings
-                      if (isSettingsClicked) {
-                        isWifiClicked = false; // Reset WiFi icon if Settings is clicked
-                      }
-                    });
-                  },
+                  onTap: () => _toggleIconState('settings'),
                   child: Container(
-                    padding: EdgeInsets.all(8.w), // Add padding inside the circle
+                    padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: isSettingsClicked ? Colors.transparent : Colors.white, // Settings background transparent when clicked
-                      shape: BoxShape.circle, // Circular shape
+                      color: isSettingsClicked ? Colors.transparent : Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isSettingsClicked ? Colors.black : Colors.transparent,
+                        width: 2.w,
+                      ),
                     ),
-                    child: Icon(Icons.settings, size: 30.sp, color: Colors.black), // Settings icon with black color
+                    child: Icon(Icons.settings, size: 30.sp, color: Colors.black),
                   ),
                 ),
               ],
