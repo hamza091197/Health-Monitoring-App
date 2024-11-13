@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets/bottom_nav_bar_widget.dart';
+import '../widgets/IconRowWidget.dart';
 import '../widgets/doctor_contact_widget.dart';
 import '../widgets/header_widget.dart';
 import '../widgets/health_status_widget.dart';
@@ -21,12 +21,12 @@ class HeartHealth extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HeaderWidget(),
-                SizedBox(height: 10.h), // Increase the space between HeaderWidget and the title
+                SizedBox(height: 10.h),
                 Text(
                   'Heart Health',
                   style: TextStyle(
-                    fontSize: 30.sp,  // Set the font size using ScreenUtil for responsiveness
-                    fontWeight: FontWeight.bold,  // Make the text bold
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 20.h),
@@ -35,10 +35,14 @@ class HeartHealth extends StatelessWidget {
                 HeartMetricsWidget(),
                 SizedBox(height: 20.h),
                 DoctorContactWidget(),
+                SizedBox(height: 20.h),
+
+                // Add the IconRowWidget at the bottom
+                Center(child: IconRowWidget()),
+
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavBarWidget(),
         );
       },
     );

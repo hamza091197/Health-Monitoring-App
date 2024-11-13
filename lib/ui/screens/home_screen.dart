@@ -1,6 +1,6 @@
-// home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:healthapp/ui/widgets/header_widget.dart';
 import '../widgets/battery_widget.dart';
 import '../widgets/customize_widget.dart';
 import '../widgets/connect_button.dart'; // Import the ConnectButton
@@ -14,95 +14,25 @@ class HomeScreen extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return Scaffold(
-          body: SingleChildScrollView(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(56.0), // Set the height of the AppBar
+            child: HeaderWidget(), // Use your custom HeaderWidget as the AppBar
+          ),
+          body: SingleChildScrollView( // Allows scrolling
             child: Padding(
-              padding: EdgeInsets.all(16.0.w),
+              padding: EdgeInsets.all(16.0.w), // Ensure the padding works for all screen sizes
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 25.r,
-                            backgroundImage: AssetImage('images/person_seven.png'),
-                          ),
-                          SizedBox(width: 10.w),
-                          Text(
-                            'Hello, Jacob!',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(8.r),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.notifications_none,
-                              size: 30.sp,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Positioned(
-                            right: 4.r,
-                            top: 4.r,
-                            child: Container(
-                              padding: EdgeInsets.all(2.r),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              child: CircleAvatar(
-                                radius: 2.r,
-                                backgroundColor: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tracking',
-                        style: TextStyle(
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'your Heart',
-                        style: TextStyle(
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(child: BatteryWidget()),
                     ],
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20.h), // Adds vertical spacing
                   CustomizeWidget(),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 20.h), // Adds vertical spacing
                   Center(child: ConnectButton()), // Center the ConnectButton at the end
                 ],
               ),

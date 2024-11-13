@@ -49,7 +49,6 @@ class HeartMetricsWidget extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // Ensure content is aligned to the left
           children: [
             Container(
               padding: EdgeInsets.all(15.w),
