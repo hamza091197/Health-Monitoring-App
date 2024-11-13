@@ -7,22 +7,9 @@ class CustomizeWidget extends StatefulWidget {
 }
 
 class _CustomizeWidgetState extends State<CustomizeWidget> {
-  // Variables to track the state of each icon
-  bool isWifiClicked = false;
-  bool isSettingsClicked = false;
-
-  // Method to handle the common logic for both icons
-  void _toggleIconState(String iconType) {
-    setState(() {
-      if (iconType == 'wifi') {
-        isWifiClicked = !isWifiClicked;
-        if (isWifiClicked) isSettingsClicked = false; // Reset Settings if WiFi clicked
-      } else {
-        isSettingsClicked = !isSettingsClicked;
-        if (isSettingsClicked) isWifiClicked = false; // Reset WiFi if Settings clicked
-      }
-    });
-  }
+  // To track which icon is selected
+  bool isWiFiSelected = false;
+  bool isSettingsSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -55,35 +42,65 @@ class _CustomizeWidgetState extends State<CustomizeWidget> {
               children: [
                 // WiFi Icon
                 GestureDetector(
-                  onTap: () => _toggleIconState('wifi'),
+                  onTap: () {
+                    setState(() {
+                      // Toggle WiFi selection state
+                      isWiFiSelected = !isWiFiSelected;
+                      // Deselect Settings icon if WiFi is selected
+                      if (isWiFiSelected) {
+                        isSettingsSelected = false;
+                      }
+                    });
+                  },
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: isWifiClicked ? Colors.transparent : Colors.white,
+                      color: isWiFiSelected ? Colors.white : Colors.transparent, // Show white background only when selected
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isWifiClicked ? Colors.black : Colors.transparent,
+                      border: isWiFiSelected
+                          ? Border.all(
+                        color: Colors.blue, // Blue border when selected
                         width: 2.w,
-                      ),
+                      )
+                          : null, // No border when unselected
                     ),
-                    child: Icon(Icons.wifi, size: 30.sp, color: Colors.black),
+                    child: Icon(
+                      Icons.wifi,
+                      size: 30.sp,
+                      color: isWiFiSelected ? Colors.blue : Colors.black, // Change icon color when selected
+                    ),
                   ),
                 ),
                 SizedBox(width: 10.w),
                 // Settings Icon
                 GestureDetector(
-                  onTap: () => _toggleIconState('settings'),
+                  onTap: () {
+                    setState(() {
+                      // Toggle Settings selection state
+                      isSettingsSelected = !isSettingsSelected;
+                      // Deselect WiFi icon if Settings is selected
+                      if (isSettingsSelected) {
+                        isWiFiSelected = false;
+                      }
+                    });
+                  },
                   child: Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
-                      color: isSettingsClicked ? Colors.transparent : Colors.white,
+                      color: isSettingsSelected ? Colors.white : Colors.transparent, // Show white background only when selected
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isSettingsClicked ? Colors.black : Colors.transparent,
+                      border: isSettingsSelected
+                          ? Border.all(
+                        color: Colors.blue, // Blue border when selected
                         width: 2.w,
-                      ),
+                      )
+                          : null, // No border when unselected
                     ),
-                    child: Icon(Icons.settings, size: 30.sp, color: Colors.black),
+                    child: Icon(
+                      Icons.settings,
+                      size: 30.sp,
+                      color: isSettingsSelected ? Colors.blue : Colors.black, // Change icon color when selected
+                    ),
                   ),
                 ),
               ],
