@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:healthapp/splash_screen.dart';
 import 'package:healthapp/ui/screens/heart_health.dart';
 
-import '../screens/home_screen.dart';
+class ConnectButton extends StatefulWidget {
+  @override
+  _ConnectButtonState createState() => _ConnectButtonState();
+}
 
-class ConnectButton extends StatelessWidget {
+class _ConnectButtonState extends State<ConnectButton> {
+  bool isSwapped = false; // Controls icon swap for animation
+
+  void navigateWithAnimation() {
+    setState(() {
+      isSwapped = true; // Swap icons before navigation
+    });
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      Get.to(() => HeartHealth()); // Navigate to HeartHealth screen
+      setState(() {
+        isSwapped = false; // Reset icon positions after navigation
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigate to the SplashScreen when the button is tapped
-        Get.to(() => HeartHealth());
-      },
+      onTap: navigateWithAnimation, // Trigger animation and navigation
       child: Container(
         padding: EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -23,9 +36,13 @@ class ConnectButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildIcon(Icons.watch, Colors.black), // Left-end icon
+            isSwapped
+                ? _buildIcon(Icons.watch, Colors.grey.shade400)
+                : _buildIcon(Icons.watch, Colors.black), // Left-end icon
             _buildConnectText(), // Center text with arrows
-            _buildIcon(Icons.watch, Colors.grey.shade400), // Right-end icon
+            isSwapped
+                ? _buildIcon(Icons.watch, Colors.black)
+                : _buildIcon(Icons.watch, Colors.grey.shade400), // Right-end icon
           ],
         ),
       ),
@@ -33,7 +50,8 @@ class ConnectButton extends StatelessWidget {
   }
 
   Widget _buildIcon(IconData icon, Color color) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
       padding: EdgeInsets.all(18.0),
       decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
       child: Icon(icon, color: color),
@@ -43,10 +61,16 @@ class ConnectButton extends StatelessWidget {
   Widget _buildConnectText() {
     return Row(
       children: [
-        Text('Connect', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        Text(
+          'Connect',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         SizedBox(width: 4.0),
         ...[Colors.black38, Colors.black54, Colors.black].map(
-              (color) => Text('>', style: TextStyle(color: color, fontWeight: FontWeight.bold)),
+              (color) => Text(
+            '>',
+            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );

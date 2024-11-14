@@ -22,6 +22,8 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 40.h),
               HeaderWidget(),
               SizedBox(height: 20.h),
+
+              // Applying SmoothWordText with ScaleTransition animation
               SmoothWordText(
                 text: 'Tracking your Heart',
                 textStyle: TextStyle(fontSize: 40.sp, fontWeight: FontWeight.bold),
@@ -56,14 +58,13 @@ class SmoothWordText extends StatefulWidget {
   _SmoothWordTextState createState() => _SmoothWordTextState();
 }
 
-class _SmoothWordTextState extends State<SmoothWordText>
-    with SingleTickerProviderStateMixin {
+class _SmoothWordTextState extends State<SmoothWordText> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: widget.duration,
   )..forward();
 
-  late final List<Animation<double>> _fadeAnimations = List.generate(
+  late final List<Animation<double>> _scaleAnimations = List.generate(
     widget.text.split(" ").length,
         (index) => Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -86,10 +87,13 @@ class _SmoothWordTextState extends State<SmoothWordText>
         final index = entry.key;
         final word = entry.value;
         return AnimatedBuilder(
-          animation: _fadeAnimations[index],
-          builder: (context, child) => Opacity(
-            opacity: _fadeAnimations[index].value,
-            child: Text("$word ", style: widget.textStyle),
+          animation: _scaleAnimations[index],
+          builder: (context, child) => ScaleTransition(
+            scale: _scaleAnimations[index],
+            child: Text(
+              "$word ",
+              style: widget.textStyle,
+            ),
           ),
         );
       }).toList(),

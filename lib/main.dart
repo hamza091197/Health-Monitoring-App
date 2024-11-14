@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:healthapp/splash_screen.dart';
+import 'package:healthapp/ui/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp( // Use GetMaterialApp instead of MaterialApp
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(), // Start with the SplashScreen
+      home: HomeScreen(), // Start with the SplashScreen
     );
   }
 }
