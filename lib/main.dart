@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:healthapp/splash_screen.dart';
-import 'package:healthapp/ui/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
