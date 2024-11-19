@@ -8,13 +8,32 @@ class ConnectButton extends StatefulWidget {
   _ConnectButtonState createState() => _ConnectButtonState();
 }
 
-class _ConnectButtonState extends State<ConnectButton> {
+class _ConnectButtonState extends State<ConnectButton>
+    with TickerProviderStateMixin {
   bool isSwapped = false; // Controls icon swap for animation
   double _swipeOffset = 0.0; // Tracks the swipe position
+  late AnimationController _animationController;
+
+  // Flag to track if the swipe has exceeded the threshold
+  bool _isSwipedBeyondThreshold = false;
+
+  // Threshold to trigger navigation when swipe is greater than this value
+  final double swipeThreshold = 100.0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the animation controller for blinking effect
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500), // Duration for the blink
+    )..repeat(reverse: true); // Make it repeat indefinitely with reverse effect
+  }
 
   void navigateWithAnimation() {
     setState(() {
       isSwapped = true; // Swap icons before navigation
+      _isSwipedBeyondThreshold = true; // Set the flag to hide the text
     });
 
     Future.delayed(Duration(milliseconds: 300), () {
@@ -22,27 +41,37 @@ class _ConnectButtonState extends State<ConnectButton> {
       setState(() {
         isSwapped = false; // Reset icon positions after navigation
         _swipeOffset = 0.0; // Reset swipe offset
+        _isSwipedBeyondThreshold = false; // Reset visibility flag
       });
     });
   }
 
   void onHorizontalSwipe(DragUpdateDetails details) {
     setState(() {
+      // Update the swipe offset, ensuring it only moves forward (positive direction)
       _swipeOffset += details.primaryDelta!;
-      // Prevent swipe from moving too far left or right
-      _swipeOffset = _swipeOffset.clamp(-50.0, 150.0); // Example bounds
+
+      // Ensure the swipe offset only moves forward (non-negative values)
+      _swipeOffset = _swipeOffset.clamp(
+          0.0, double.infinity); // Allow only forward movement
     });
   }
 
   void onSwipeEnd(DragEndDetails details) {
-    if (_swipeOffset > 100) {
-      // Threshold for swiping
+    // Trigger navigation only if swipe offset exceeds the threshold
+    if (_swipeOffset > swipeThreshold) {
       navigateWithAnimation();
     } else {
       setState(() {
         _swipeOffset = 0.0; // Reset position if swipe is not enough
       });
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose(); // Dispose animation controller when done
+    super.dispose();
   }
 
   @override
@@ -65,9 +94,13 @@ class _ConnectButtonState extends State<ConnectButton> {
               child: _buildIcon(
                   Icons.watch, Colors.black), // Black icon on the left
             ),
-            // Center text with arrows
-            Center(child: _buildConnectText()),
-            // Right icon, fixed position with conditional color based on swipe status
+            // Center text with arrows, visibility based on swipe threshold
+            Visibility(
+              visible: !_isSwipedBeyondThreshold,
+              // Hide when threshold exceeded
+              child: Center(child: _buildConnectText()),
+            ),
+            // Right icon, fixed position with conditional color based on swap state
             Positioned(
               right: 0,
               child: _buildIcon(
@@ -83,7 +116,7 @@ class _ConnectButtonState extends State<ConnectButton> {
     );
   }
 
-// Updated _buildIcon method to create a rounded card with a circular icon background
+  // Updated _buildIcon method to create a rounded card with a circular icon background
   Widget _buildIcon(IconData icon, Color color) {
     return Card(
       elevation: 4.0, // Adds shadow for card effect
@@ -106,6 +139,7 @@ class _ConnectButtonState extends State<ConnectButton> {
     );
   }
 
+  // Updated _buildConnectText with blinking effect using AnimationController
   Widget _buildConnectText() {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -115,11 +149,23 @@ class _ConnectButtonState extends State<ConnectButton> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         SizedBox(width: 4.0),
+        // Using AnimatedBuilder to apply the blinking effect
         ...[Colors.black38, Colors.black54, Colors.black].map(
-          (color) => Text(
-            '>',
-            style: TextStyle(color: color, fontWeight: FontWeight.bold),
-          ),
+          (color) {
+            return AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                // Control the opacity with the animation value
+                return Opacity(
+                  opacity: _animationController.value,
+                  child: Text(
+                    '>',
+                    style: TextStyle(color: color, fontWeight: FontWeight.bold),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ],
     );
